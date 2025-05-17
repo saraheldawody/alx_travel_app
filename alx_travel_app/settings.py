@@ -12,8 +12,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import environ
+import os
+import sys
+
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 env = environ.Env(
     DEBUG=(bool, False)
 )
@@ -58,7 +64,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'alx_travel_app.urls'
+ROOT_URLCONF = 'urls'
+
+
+WSGI_APPLICATION = 'wsgi.application'
+
 
 TEMPLATES = [
     {
@@ -75,8 +85,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'alx_travel_app.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -85,16 +93,24 @@ WSGI_APPLICATION = 'alx_travel_app.wsgi.application'
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('db_name'),
-        'USER': env('db_user'),
-        'PASSWORD': env('db_password'),
-        'HOST': env('db_host'),
-        'PORT': env('db_port'),
+if env('db') == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env('db_name'),
+            'USER': env('db_user'),
+            'PASSWORD': env('db_password'),
+            'HOST': env('db_host'),
+            'PORT': env('db_port'),
+        }
+    }
 
 # REST Framework
 REST_FRAMEWORK = {
