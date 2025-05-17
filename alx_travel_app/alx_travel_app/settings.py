@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'drf_yasg',
-    'listings',
+    'alx_travel_app.listings',
     
 ]
 
@@ -64,10 +64,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'alx_travel_app.urls'
 
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'alx_travel_app.wsgi.application'
 
 
 TEMPLATES = [
