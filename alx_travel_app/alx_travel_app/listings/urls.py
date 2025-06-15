@@ -1,6 +1,11 @@
-from django.urls import path
-from .views import ListingListCreateAPIView
+from rest_framework import routers
+from .views import ListingViewSet, BookingViewSet
+from django.urls import path, include
+
+router = routers.DefaultRouter()
+router.register(r'listings', ListingViewSet, basename='listing')
+router.register(r'bookings', BookingViewSet, basename='booking')
 
 urlpatterns = [
-    path('', ListingListCreateAPIView.as_view(), name='listing-list-create'),
+    path('', include(router.urls)),
 ]
